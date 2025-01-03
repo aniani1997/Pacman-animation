@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW-PACMAN</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+        }
+
+        .space {
+            height: 100vh;
+            width: 100vw;
+            background-image: url(./img/gameshopbg.webp);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .machine {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items:center ;
+
+        }
+        .machine img {
+            width: 560px;
+            height: 130px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: -2px;
+
+        }
+
+        .map {
+            width: 500px;
+            height: 600px;
+            /* background-color: black; */
+            margin: auto;
+            position: relative;
+            
+        }
+
+        .maze {
+            width: 500px;
+            height: 600px;
+            background-color:black;
+            margin: auto;
+            position: relative;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .maze::after {
+            content: "";
+            width: 470px;
+            height: 570px;
+            border: 15px solid 	blue;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .maze-line {
+            width: 440px;
+            height: calc(540px / 8);
+            display: flex;
+        }
+
+        .block {
+            width: calc(100% / 7);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .block-bottom {
+            border-bottom: 15px solid	blue;
+        }
+
+        .block-right {
+            border-right: 15px solid 	blue;
+        }
+
+        .dot {
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            background-color: #fdff00;
+            /* border: outset; */
+        }
+
+        .dot-1-1 {
+            animation: darken-1-1 15s linear 1;
+        }
+
+        @keyframes darken-1-1 {
+            0% {
+                background-color: #fdff00;
+                /* border: outset; */
+            }
+
+            28% {
+                background-color: #fdff00;
+                /* border: outset; */
+            }
+
+            29%,
+            100% {
+                background-color: black;
+                border: none;
+            }
+        }
+
+        .dot-1-2 {
+            animation: darken-1-2 15s linear 1;
+        }
+
+        @keyframes darken-1-2 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            33% {
+                background-color: #fdff00;
+            }
+
+            34%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-1-3 {
+            animation: darken-1-3 15s linear 1;
+        }
+
+        @keyframes darken-1-3 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            38% {
+                background-color: #fdff00;
+            }
+
+            39%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-1-4 {
+            animation: darken-1-4 15s linear 1;
+        }
+
+        @keyframes darken-1-4 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            42% {
+                background-color: #fdff00;
+            }
+
+            43%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-1-5 {
+            animation: darken-1-5 15s linear 1;
+        }
+
+        @keyframes darken-1-5 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            47% {
+                background-color: #fdff00;
+            }
+
+            48%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-4-7 {
+            animation: darken-4-7 15s linear 1;
+        }
+
+        @keyframes darken-4-7 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            65.4% {
+                background-color: #fdff00;
+            }
+
+            65.5%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-5-6 {
+            animation: darken-5-6 15s linear 1;
+        }
+
+        @keyframes darken-5-6 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            75.4% {
+                background-color: #fdff00;
+            }
+
+            75.5%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-5-5 {
+            animation: darken-5-5 15s linear 1;
+        }
+
+        @keyframes darken-5-5 {
+            0% {
+                background-color: #fdff00;
+            }
+
+            80.4% {
+                background-color: #fdff00;
+            }
+
+            80.5%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        .dot-coin {
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            background-image: url(./img/coin-small.gif);
+            background-position: center;
+            background-size: cover;
+            border: none;
+            animation: coin-eat 15s linear 1;
+        }
+
+        @keyframes coin-eat {
+            0% {
+                background-image: url(./img/coin-small.gif);
+            }
+
+            98% {
+                background-image: url(./img/coin-small.gif);
+            }
+
+            99%,
+            100% {
+                background-image: none;
+            }
+        }
+
+        .pacman {
+            width: 40px;
+            height: 40px;
+            /* background-color:black; */
+            position: absolute;
+            top: 245px;
+            left: 35px;
+            animation: moving 15s linear 1;
+        }
+
+        @keyframes moving {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            4.9% {
+                transform: translate(61px, 0) rotate(0deg);
+            }
+
+            5% {
+                transform: translate(61px, 0) rotate(-90deg);
+            }
+
+            13.9% {
+                transform: translate(61px, -140px) rotate(-90deg);
+            }
+
+            14% {
+                transform: translate(61px, -140px) rotate(-180deg);
+            }
+
+            18.9% {
+                transform: translate(5px, -140px)rotate(-180deg);
+            }
+
+            19% {
+                transform: translate(5px, -140px)rotate(-90deg);
+            }
+
+            23.9% {
+                transform: translate(5px, -208px)rotate(-90deg);
+            }
+
+            24% {
+                transform: translate(5px, -208px)rotate(0deg);
+            }
+
+            51.9% {
+                transform: translate(385px, -208px)rotate(0deg);
+            }
+
+            52% {
+                transform: translate(385px, -208px)rotate(90deg);
+            }
+
+            65.9% {
+                transform: translate(385px, 0px)rotate(90deg);
+            }
+
+            66% {
+                transform: translate(385px, 0px)rotate(180deg);
+            }
+
+            70.9% {
+                transform: translate(314px, 0px)rotate(180deg);
+            }
+
+            71% {
+                transform: translate(314px, 0px)rotate(90deg);
+            }
+
+            75.9% {
+                transform: translate(314px, 60px)rotate(90deg);
+            }
+
+            76% {
+                transform: translate(314px, 60px)rotate(180deg);
+            }
+
+            80.9% {
+                transform: translate(251px, 60px)rotate(180deg);
+            }
+
+            81% {
+                transform: translate(251px, 60px)rotate(270deg);
+            }
+
+            89.9% {
+                transform: translate(251px, -65px)rotate(270deg);
+            }
+
+            90% {
+                transform: translate(251px, -65px)rotate(180deg);
+            }
+
+            94.9% {
+                transform: translate(190px, -65px)rotate(180deg);
+            }
+
+            95% {
+                transform: translate(190px, -65px)rotate(90deg);
+            }
+
+            100% {
+                transform: translate(190px, -5px)rotate(90deg);
+
+            }
+        }
+
+
+        @keyframes eating {
+            50% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .pacman::before,
+        .pacman::after {
+            content: "";
+            width: 40px;
+            height: 40px;
+            border-top: 20px solid gold;
+            border-radius: 50%;
+            border-bottom: 20px solid transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            animation: eating 1s linear infinite;
+        }
+
+        .pacman::after {
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid gold;
+            transform: rotate(45deg);
+        }
+
+        .ghost {
+            width: 40px;
+            height: 40px;
+            background-color: hotpink;
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            position: absolute;
+            top: 105px;
+            left: 160px;
+            animation: pink-chasing 3s linear infinite;
+        }
+
+        @keyframes pink-chasing {
+            50% {
+                top: 360px;
+            }
+        }
+
+        .ghost-orange {
+            background-color: #d03e19;
+            top: 515px;
+            left: 230px;
+            animation: orange-chasing 3s linear infinite;
+        }
+
+        @keyframes orange-chasing {
+            50% {
+                left: 420px;
+            }
+        }
+
+        .ghost::before,
+        .ghost::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            bottom: -10px;
+            position: absolute;
+            border-radius: 5px;
+            border-bottom: 10px solid transparent;
+            border-top: 10px solid transparent;
+            border-left: 11px solid hotpink;
+            border-right: 11px solid hotpink;
+        }
+
+        .ghost-orange::before,
+        .ghost-orange::after {
+            border-left: 11px solid #d03e19;
+            border-right: 11px solid #d03e19;
+        }
+
+        .ghost::after {
+            right: 0;
+        }
+
+        .eye {
+            width: 12px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 12px;
+            left: 8px;
+        }
+
+        .eye::after {
+            content: "";
+            width: 8px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: 	mediumblue;
+            position: absolute;
+            z-index: 9;
+            bottom: 1px;
+            right: 0;
+            animation: eye-flip 3s linear infinite;
+        }
+
+        .eye-right {
+            left: 25px;
+        }
+
+        @keyframes eye-flip {
+            100% {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="space">
+        <!-- <div class="bannar"></div> -->
+        <div class="machine">
+            <img src="./img/pacman-oranbg-logo.png" alt="">
+            <div class="map">
+                <div class="maze">
+                    <div class="maze-line line-1">
+                        <div class="block block-none">
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-1-1"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-1-2"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-1-3"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-1-4"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-1-5"></div>
+                        </div>
+                        <div class="block block-none"></div>
+                    </div>
+                    <div class="maze-line line-2">
+                        <div class="block block-bottom"></div>
+                        <div class="block block-none"></div>
+                        <div class="block block-right">
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-right">
+                        </div>
+                        <div class="block block-none">
+                        </div>
+                    </div>
+                    <div class="maze-line line-3">
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-right"></div>
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-none"></div>
+                        <div class="block block-right"></div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-none"></div>
+                    </div>
+                    <div class="maze-line line-4">
+                        <div class="block block-none"></div>
+                        <div class="block block-right"></div>
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-bottom block-right">
+                            <div class="dot dot-coin"></div>
+                        </div>
+                        <div class="block block-right"></div>
+                        <div class="block block-none"></div>
+                        <div class="block block-none">
+                            <div class="dot dot-4-7"></div>
+                        </div>
+                    </div>
+                    <div class="maze-line line-5">
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-right">
+                        </div>
+                        <div class="block block-none"></div>
+                        <div class="block block-bottom">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-bottom">
+                            <div class="dot dot-5-5"></div>
+                        </div>
+                        <div class="block block-bottom block-right">
+                            <div class="dot dot-5-6"></div>
+                        </div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="maze-line line-6">
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-right"></div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-none"></div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="maze-line line-7">
+                        <div class="block block-right">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-bottom"></div>
+                        <div class="block block-bottom block-right"></div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="maze-line line-8">
+                        <div class="block block-none">
+
+                        </div>
+                        <div class="block block-none"></div>
+                        <div class="block block-right"></div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="block block-none">
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pacman"></div>
+                <div class="ghost ghost-pink">
+                    <div class="eye"></div>
+                    <div class="eye eye-right"></div>
+                </div>
+                <div class="ghost ghost-orange">
+                    <div class="eye"></div>
+                    <div class="eye eye-right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

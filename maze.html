@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .maze {
+            width: 500px;
+            height: 600px;
+            background-color: black;
+            margin: auto;
+            position: relative;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .maze::after {
+            content: "";
+            width: 440px;
+            height: 540px;
+            border: 15px solid mediumblue;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .maze-line {
+            width: 440px;
+            height: calc(540px / 8);
+            display: flex;
+        }
+
+        .block {
+            width: calc(100% / 7);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .block-bottom {
+            border-bottom: 15px solid mediumblue;
+        }
+
+        .block-right {
+            border-right: 15px solid mediumblue;
+        }
+
+        .dot {
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            background-color: 	#fdff00;
+        }
+
+        .dot-coin {
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            background-image: url(./img/coin-small.gif);
+            background-position: center;
+            background-size:cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="maze">
+        <div class="maze-line line-1">
+            <div class="block block-none">
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none"></div>
+        </div>
+        <div class="maze-line line-2">
+            <div class="block block-bottom"></div>
+            <div class="block block-none"></div>
+            <div class="block block-right">
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-right">
+            </div>
+            <div class="block block-none">
+            </div>
+        </div>
+        <div class="maze-line line-3">
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-right"></div>
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none"></div>
+            <div class="block block-right"></div>
+            <div class="block block-bottom"></div>
+            <div class="block block-none"></div>
+        </div>
+        <div class="maze-line line-4">
+            <div class="block block-none"></div>
+            <div class="block block-right"></div>
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom block-right">
+                <div class="dot dot-coin"></div>
+            </div>
+            <div class="block block-right"></div>
+            <div class="block block-none"></div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="maze-line line-5">
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-right">
+            </div>
+            <div class="block block-none"></div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="maze-line line-6">
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-right"></div>
+            <div class="block block-bottom"></div>
+            <div class="block block-bottom"></div>
+            <div class="block block-bottom"></div>
+            <div class="block block-none"></div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="maze-line line-7">
+            <div class="block block-right">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom"></div>
+            <div class="block block-bottom"></div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-bottom"></div>
+            <div class="block block-bottom block-right"></div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="maze-line line-8">
+            <div class="block block-none">
+                
+            </div>
+            <div class="block block-none"></div>
+            <div class="block block-right"></div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+            <div class="block block-none">
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

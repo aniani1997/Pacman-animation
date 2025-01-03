@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+        }
+
+        .ghost {
+            width: 100px;
+            height: 100px;
+            background-color: hotpink;
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            position: relative;
+        }
+
+        .ghost::before,
+        .ghost::after {
+            content: "";
+            width: 56px;
+            height: 50px;
+            bottom: -25px;
+            position: absolute;
+            border-radius: 20px;
+            border-bottom: 25px solid transparent;
+            border-top: 25px solid transparent;
+            border-left: 28px solid hotpink;
+            border-right: 28px solid hotpink;
+        }
+
+        .ghost::after {
+            right: 0;
+        }
+
+        .eye {
+            width: 25px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+        .eye::after {
+            content: "";
+            width: 15px;
+            height: 20px;
+            border-radius: 50%;
+            background-color:mediumblue;
+            position: absolute;
+            /* z-index: 9; */
+            bottom: 2px;
+            right: 0;
+        }
+
+        .eye-right {
+            left: 70px;
+        }
+
+        /* .eye-3 {
+            left: 120px;
+        } */
+
+    </style>
+</head>
+
+<body>
+    <div class="ghost">
+        <div class="eye"></div>
+        <div class="eye eye-right"></div>
+    </div>
+</body>
+
+</html>
